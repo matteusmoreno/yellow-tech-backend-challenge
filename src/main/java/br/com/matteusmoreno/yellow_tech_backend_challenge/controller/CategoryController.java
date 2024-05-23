@@ -8,6 +8,9 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.response.CategoryDetai
 import br.com.matteusmoreno.yellow_tech_backend_challenge.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,6 +34,13 @@ public class CategoryController {
         URI uri = urBuilder.path("/categories/create/{id}").buildAndExpand(category.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new CategoryDetailsResponse(category));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Page<CategoryDetailsResponse>> list(@PageableDefault(size = 10, sort = "name") Pageable pageable) {
+        Page<CategoryDetailsResponse> page = categoryService.listAllCategories(pageable);
+
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/details/{id}")

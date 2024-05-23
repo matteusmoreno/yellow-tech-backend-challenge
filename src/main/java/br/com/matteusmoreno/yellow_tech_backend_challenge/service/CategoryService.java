@@ -4,9 +4,12 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.entity.Category;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.repository.CategoryRepository;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreateCategoryRequest;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdateCategoryRequest;
+import br.com.matteusmoreno.yellow_tech_backend_challenge.response.CategoryDetailsResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +36,10 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow();
     }
 
+    public Page<CategoryDetailsResponse> listAllCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable).map(CategoryDetailsResponse::new);
+    }
+
     @Transactional
     public Category updateCategory(UpdateCategoryRequest request) {
         Category category = categoryRepository.findById(request.id()).orElseThrow();
@@ -50,4 +57,6 @@ public class CategoryService {
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
+
+
 }

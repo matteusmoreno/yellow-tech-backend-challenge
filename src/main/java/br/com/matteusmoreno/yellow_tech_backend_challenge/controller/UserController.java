@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping("/list")
     public ResponseEntity<Page<UserDetailsResponse>> list(@PageableDefault(size = 10, sort = "name") Pageable pageable) {
-        var page = userService.listAllUsers(pageable);
+        Page<UserDetailsResponse> page = userService.listAllUsers(pageable);
 
         return ResponseEntity.ok(page);
     }
