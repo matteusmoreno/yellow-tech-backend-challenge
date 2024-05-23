@@ -45,4 +45,9 @@ public class CategoryService {
 
         return category;
     }
+
+    @Transactional
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
+    }
 }
