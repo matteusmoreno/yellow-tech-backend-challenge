@@ -19,7 +19,6 @@ CREATE TABLE posts (
 
     user_id BIGINT,
     category_id BIGINT,
-    subcategory_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
