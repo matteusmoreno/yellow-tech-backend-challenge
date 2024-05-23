@@ -7,6 +7,7 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.repository.CategoryRep
 import br.com.matteusmoreno.yellow_tech_backend_challenge.repository.PostRepository;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.repository.UserRepository;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreatePostRequest;
+import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdatePostRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,25 @@ public class PostService {
 
     public Post postDetails(Long id) {
         return postRepository.findById(id).orElseThrow();
+    }
+
+    @Transactional
+    public Post updatePost(UpdatePostRequest request) {
+        Post post = postRepository.findById(request.id()).orElseThrow();
+
+        if (request.title() != null) {
+            post.setTitle(request.title());
+        }
+        if (request.content() != null) {
+            post.setContent(request.content());
+        }
+        if (request.category() != null) {
+            Category category = categoryRepository.findById(request.category()).orElseThrow();
+            post.setCategory(category);
+        }
+
+        postRepository.save(post);
+
+        return post;
     }
 }

@@ -2,6 +2,7 @@ package br.com.matteusmoreno.yellow_tech_backend_challenge.controller;
 
 import br.com.matteusmoreno.yellow_tech_backend_challenge.entity.Post;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreatePostRequest;
+import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdatePostRequest;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.response.PostDetailsResponse;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.service.PostService;
 import jakarta.validation.Valid;
@@ -34,6 +35,13 @@ public class PostController {
     @GetMapping("/details/{id}")
     public ResponseEntity<PostDetailsResponse> details(@PathVariable Long id) {
         Post post = postService.postDetails(id);
+
+        return ResponseEntity.ok(new PostDetailsResponse(post));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<PostDetailsResponse> update(@RequestBody @Valid UpdatePostRequest request) {
+        Post post = postService.updatePost(request);
 
         return ResponseEntity.ok(new PostDetailsResponse(post));
     }
