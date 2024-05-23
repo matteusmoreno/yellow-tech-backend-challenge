@@ -3,15 +3,13 @@ package br.com.matteusmoreno.yellow_tech_backend_challenge.controller;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.entity.Category;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreateCategoryRequest;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreatePostRequest;
+import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdateCategoryRequest;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.response.CategoryDetailsResponse;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -33,5 +31,19 @@ public class CategoryController {
         URI uri = urBuilder.path("/categories/create/{id}").buildAndExpand(category.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new CategoryDetailsResponse(category));
+    }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<CategoryDetailsResponse> details(@PathVariable Long id) {
+        Category category = categoryService.categoryDetails(id);
+
+        return ResponseEntity.ok(new CategoryDetailsResponse(category));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<CategoryDetailsResponse> update(@RequestBody @Valid UpdateCategoryRequest request) {
+        Category category = categoryService.updateCategory(request);
+
+        return ResponseEntity.ok(new CategoryDetailsResponse(category));
     }
 }
