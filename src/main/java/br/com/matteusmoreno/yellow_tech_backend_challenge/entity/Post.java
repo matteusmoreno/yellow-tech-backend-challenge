@@ -23,7 +23,7 @@ public class Post {
     private LocalDateTime createdAt;
     private int views;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

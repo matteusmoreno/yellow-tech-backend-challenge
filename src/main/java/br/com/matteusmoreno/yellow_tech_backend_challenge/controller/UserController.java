@@ -6,7 +6,6 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdateUserRequ
 import br.com.matteusmoreno.yellow_tech_backend_challenge.response.UserDetailsResponse;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.service.UserService;
 import jakarta.validation.Valid;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
