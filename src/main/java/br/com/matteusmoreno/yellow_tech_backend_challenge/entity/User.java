@@ -19,6 +19,6 @@ public class User {
     private Long id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Post> posts;
 }
