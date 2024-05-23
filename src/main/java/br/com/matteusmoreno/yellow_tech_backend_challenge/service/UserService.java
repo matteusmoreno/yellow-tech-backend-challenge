@@ -34,6 +34,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public User updateUser(UpdateUserRequest request) {
         User user = userRepository.findById(request.id()).orElseThrow();
 
@@ -47,5 +48,10 @@ public class UserService {
         userRepository.save(user);
 
         return user;
+    }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
