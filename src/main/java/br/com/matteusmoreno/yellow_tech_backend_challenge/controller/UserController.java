@@ -5,12 +5,10 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreateUserRequ
 import br.com.matteusmoreno.yellow_tech_backend_challenge.response.UserDetailsResponse;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -32,5 +30,12 @@ public class UserController {
         URI uri = uriBuilder.path("/users/create/{id}").buildAndExpand(user.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new UserDetailsResponse(user));
+    }
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<UserDetailsResponse> details(@PathVariable Long id) {
+        User user = userService.userDetails(id);
+
+        return ResponseEntity.ok(new UserDetailsResponse(user));
     }
 }

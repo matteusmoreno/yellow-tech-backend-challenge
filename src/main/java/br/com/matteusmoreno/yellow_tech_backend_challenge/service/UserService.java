@@ -28,4 +28,8 @@ public class UserService {
 
         return user;
     }
+
+    public User userDetails(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
 }
