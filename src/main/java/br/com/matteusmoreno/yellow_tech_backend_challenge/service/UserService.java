@@ -4,9 +4,12 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.entity.User;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.repository.UserRepository;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreateUserRequest;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdateUserRequest;
+import br.com.matteusmoreno.yellow_tech_backend_challenge.response.UserDetailsResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +35,10 @@ public class UserService {
 
     public User userDetails(Long id) {
         return userRepository.findById(id).orElseThrow();
+    }
+
+    public Page<UserDetailsResponse> listAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).map(UserDetailsResponse::new);
     }
 
     @Transactional

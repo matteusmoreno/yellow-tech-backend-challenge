@@ -7,6 +7,9 @@ import br.com.matteusmoreno.yellow_tech_backend_challenge.response.UserDetailsRe
 import br.com.matteusmoreno.yellow_tech_backend_challenge.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,6 +33,13 @@ public class UserController {
         URI uri = uriBuilder.path("/users/create/{id}").buildAndExpand(user.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new UserDetailsResponse(user));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<Page<UserDetailsResponse>> list(@PageableDefault(size = 10, sort = "name") Pageable pageable) {
+        var page = userService.listAllUsers(pageable);
+
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/details/{id}")
