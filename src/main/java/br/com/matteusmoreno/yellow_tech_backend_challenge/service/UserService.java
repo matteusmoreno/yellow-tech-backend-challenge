@@ -3,6 +3,7 @@ package br.com.matteusmoreno.yellow_tech_backend_challenge.service;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.entity.User;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.repository.UserRepository;
 import br.com.matteusmoreno.yellow_tech_backend_challenge.request.CreateUserRequest;
+import br.com.matteusmoreno.yellow_tech_backend_challenge.request.UpdateUserRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,20 @@ public class UserService {
 
     public User userDetails(Long id) {
         return userRepository.findById(id).orElseThrow();
+    }
+
+    public User updateUser(UpdateUserRequest request) {
+        User user = userRepository.findById(request.id()).orElseThrow();
+
+        if (request.name() != null) {
+            user.setName(request.name());
+        }
+        if (request.description() != null) {
+            user.setDescription(request.description());
+        }
+
+        userRepository.save(user);
+
+        return user;
     }
 }
